@@ -27,8 +27,7 @@ export default class Card {
   }
 
   _handleLikeClick() {
-    this.likeButton = this.element.querySelector('.element__like');
-    this.likeButton.classList.toggle('element__like_activ');
+    this.btnLike.classList.toggle('element__like_activ');
   }
 
   _handleDeleteClick() {

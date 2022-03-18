@@ -4,7 +4,7 @@ export default class UserInfo {
         this.jobProfile = jobProfile;
     }
 
-    _getUserInfo() {
+    getUserInfo() {
         return {
             name: this.nameProfile.textContent,
             job: this.jobProfile.textContent
@@ -15,8 +15,6 @@ export default class UserInfo {
         this.nameProfile.textContent = name;
         this.jobProfile.textContent = job;
     }
-    userInfoInputList() {
-        return this._getUserInfo()
-    }
+
 }
 

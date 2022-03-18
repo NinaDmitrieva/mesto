@@ -33,7 +33,7 @@ const cardsList = new Section({
 
 const userInfo = new UserInfo({ nameProfile: profileTitle, jobProfile: profileSubitle });
 
-const profilePopup = new PopupWithForm(popupProfile,
+const profilePopup = new PopupWithForm('.popup_profile', 
   (data) => {
     userInfo.setUserInfo(data);
     profilePopup.close();
@@ -41,9 +41,9 @@ const profilePopup = new PopupWithForm(popupProfile,
 
 const profileValidate = new FormValidator(settings, formProfile);
 const popupPhotoValidate = new FormValidator(settings, formPhoto);
-const popupOpenPhoto = new PopupWithImage(popupPhotoLook);
+const popupOpenPhoto = new PopupWithImage('.popup_open-foto');
 
-const photoSavaPopup = new PopupWithForm(popupPhotoSave,
+const photoSavaPopup = new PopupWithForm('.popup_foto',
   (item) => {
     const cardNew = {
       name: item.name,
@@ -63,7 +63,7 @@ function handleCardClick(name, link) {
 }
 
 function openPopupProfile() {
-  const userDescription = userInfo.userInfoInputList()
+  const userDescription = userInfo.getUserInfo()
   nameInput.value = userDescription.name
   jobInput.value = userDescription.job
   profilePopup.open();
