@@ -8,9 +8,6 @@ import PopupWithForm from '../components/PopupWithForm.js'
 import {
   settings,
   initialCards,
-  popupProfile,
-  popupPhotoSave,
-  popupPhotoLook,
   btnOpenProfile,
   btnOpenNewPhoto,
   nameInput,
@@ -19,6 +16,8 @@ import {
   profileSubitle,
   formProfile,
   formPhoto,
+  chengeAvatar,
+  
 } from '../utils/Constants.js'
 
 
@@ -32,16 +31,17 @@ const cardsList = new Section({
 );
 
 const userInfo = new UserInfo({ nameProfile: profileTitle, jobProfile: profileSubitle });
-
-const profilePopup = new PopupWithForm('.popup_profile', 
-  (data) => {
-    userInfo.setUserInfo(data);
-    profilePopup.close();
-  })
-
 const profileValidate = new FormValidator(settings, formProfile);
 const popupPhotoValidate = new FormValidator(settings, formPhoto);
 const popupOpenPhoto = new PopupWithImage('.popup_open-foto');
+const profilePopup = new PopupWithForm('.popup_profile');
+
+const popupUpdateAvatar = new PopupWithForm('.popup_update', //попап, меняющий картинку
+(upDate) => {
+ upDateAvatar(upDate);
+ popupUpdateAvatar.close();
+}
+);
 
 const photoSavaPopup = new PopupWithForm('.popup_foto',
   (item) => {
@@ -75,12 +75,22 @@ function openPopupSaveNewPhoto() {
   popupPhotoValidate.setSubmitButtonState()
 }
 
+function upDateAvatar() { 
+  console.log(upDate);
+  popupUpdateAvatar.open();
+  popupUpdateAvatar.setEventListeners();
+}
+
 btnOpenProfile.addEventListener('click', (openPopupProfile));
 btnOpenNewPhoto.addEventListener('click', (openPopupSaveNewPhoto));
+chengeAvatar.addEventListener('click', (upDateAvatar));
+
 profileValidate.enableValidation();
 popupPhotoValidate.enableValidation();
+
+
 profilePopup.setEventListeners();
 photoSavaPopup.setEventListeners();
 popupOpenPhoto.setEventListeners();
-cardsList.renderItems();
 
+cardsList.renderItems();

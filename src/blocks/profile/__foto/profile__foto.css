@@ -4,6 +4,14 @@
   margin: auto;
   justify-items: center;
   margin-right: 30px;
+  position: relative;
+  z-index: 2;
+
+}
+
+.profile__foto:hover{
+  opacity: 0.3;
+  transition: opacity 0.5s ease-in-out;
 }
 
 @media screen and (max-width: 800px) {

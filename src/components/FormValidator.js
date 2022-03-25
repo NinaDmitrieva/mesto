@@ -40,7 +40,7 @@ export default class FormValidator {
     errorElement.textContent = "" ;
   }
 
-   setSubmitButtonState(form) {
+   setSubmitButtonState() {
     this._button.disabled = !this._form.checkValidity()
     this._button.classList.toggle(this._submitButtonErrorClass, !this._form.checkValidity())
   }

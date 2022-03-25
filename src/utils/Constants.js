@@ -35,6 +35,10 @@ export const initialCards = [
 
 /*модальные окна */
 export const popupProfile = document.querySelector('.popup_profile');
+
+export const popupConfirm = document.querySelector('.popup_confirm');
+export const popupUpdateAvatar = document.querySelector('.popup_update');
+
 export const popupPhotoSave = document.querySelector('.popup_foto');
 export const popupPhotoLook = document.querySelector('.popup_open-foto');
 export const popupList = document.querySelectorAll('.popup');
@@ -47,6 +51,8 @@ export const fotoName = document.querySelector('.popup__foto-name');
 /*кнопки */
 export const btnOpenProfile = document.querySelector('.profile__edit-button');  //  кнопка открывает редактирование профиля
 export const btnOpenNewPhoto = document.querySelector('.profile__add-button');  //  кнопка открывает добавление фото
+export const chengeAvatar = document.querySelector('.profile__hover-img');
+
 
 /*инпуты*/
 export const nameInput = document.querySelector('.popup__name');

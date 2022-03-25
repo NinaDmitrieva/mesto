@@ -13,7 +13,9 @@
         <main>
             <section class="profile">
                 <div class="profile__about-whom">
-                        <img class="profile__foto" alt="Аватар" src="<%=require('./images/image.svg')%>">
+                        <div class="profile__hover-img">
+                            <img class="profile__foto" alt="Аватар" src="<%=require('./images/image.svg')%>">
+                        </div>
                     <div class="profile__profile-info">
                         <div class="profile__name">
                             <button class="profile__edit-button" type="button"></button>
@@ -53,7 +55,7 @@
                             id="work" required
                             >
                         <span id="work-error" class="error"></span>
-                        <button class="popup__save" type="submit">Сохранить</button>
+                        <button class="popup__save" type="submit">Сохранение...</button>
                     </form>
                 </div>
             </div>
@@ -93,6 +95,37 @@
                 <h3 class="popup__foto-name"></h3>
             </div>
         </section> 
+        <section class="popup popup_confirm">
+            <div class="popup__block">
+                <button class="popup__close-icon popup__close" type="button"></button>
+                <div class="popup__form">
+                    <h3 class="popup__text popup__text-confirm">Вы уверены?</h3>
+                    <form class="popup__about-foto popup__forms" novalidate >
+                        <button class="popup__save" type="submit">Да</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <section class="popup popup_update">
+            <div class="popup__block">
+                <button class="popup__close-icon popup__close" type="button"></button>
+                <div class="popup__form">
+                    <h3 class="popup__text">Обновить аватар</h3>
+                    <form class="popup__about-foto popup__forms" novalidate >
+                        <span id="name-place-error" class="error"></span>
+                        <input class="popup__style popup__place input" 
+                            type="url" 
+                            name="link"
+                            id="place-url"
+                            placeholder="Ссылка на картинку" 
+                            required>
+                        <span id="place-url-error" class="error"></span>
+                        <button class="popup__save" type="submit">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
 
         <footer class="footer">
             <p class="footer__copyright">© 2022 Mesto Russia</p>
