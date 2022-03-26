@@ -51,7 +51,8 @@ export const fotoName = document.querySelector('.popup__foto-name');
 /*кнопки */
 export const btnOpenProfile = document.querySelector('.profile__edit-button');  //  кнопка открывает редактирование профиля
 export const btnOpenNewPhoto = document.querySelector('.profile__add-button');  //  кнопка открывает добавление фото
-export const chengeAvatar = document.querySelector('.profile__hover-img');
+export const chengeAvatar = document.querySelector('.profile__hover-img'); 
+export const btnDetiteCard = document.querySelector('.element__close-icon'); //кнопка удаления карточки
 
 
 /*инпуты*/
