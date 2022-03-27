@@ -8,7 +8,6 @@ import PopupWithForm from '../components/PopupWithForm.js'
 import Api from '../components/Api.js'
 import {
   settings,
-  initialCards,
   btnOpenProfile,
   btnOpenNewPhoto,
   nameInput,
@@ -17,35 +16,11 @@ import {
   profileSubitle,
   formProfile,
   formPhoto,
+  formPopup,
   chengeAvatar,
   btnDetiteCard,
   
 } from '../utils/Constants.js'
-
-
-// fetch('https://mesto.nomoreparties.co/v1/cohort-38/cards', { //прогрузим картинки
-//   headers: {
-//     authorization: '1fed1f0c-d99b-4c82-a201-fb2e7265dac6'
-//   }
-// })
-//   .then(res => res.json())
-//   .then((result) => {
-//     console.log(result);
-//   }); 
-
-
-//     fetch('https://nomoreparties.co/v1/cohort-38/users/me', { //выведи пользователя
-//       headers: {
-//         authorization: '1fed1f0c-d99b-4c82-a201-fb2e7265dac6'
-//       }
-//     })
-//     .then((res) => {
-//       return res.json();
-//     })
-//     .then((res) => {
-//         console.log(res); 
-//     })
-
 
     const api = new Api({ //новый класс апи
       baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-38',
@@ -55,17 +30,43 @@ import {
       }
     }); 
 
+    api.getInitialCards() //прогрузим карточки с сервера
+    .then((cards) => createCardsList(cards))
+    .catch((err) => {
+      console.log('err', err);
+    }) 
 
 
-
-const cardsList = new Section({
-  items: initialCards,
-  renderer: (item) => {
-    cardsList.addItem(renderNewCard(item))
+function createCardsList(cards)  { //функция по отрисовке картинок
+  const cardsList = new Section({
+    items: cards,
+    renderer: (item) => {
+     cardsList.addItem(renderNewCard(item))
+    },
   },
-},
-  '.elements'
-);
+    '.elements'
+  );
+   cardsList.renderItems();
+}
+
+const photoSavePopup = new PopupWithForm('.popup_foto', //сохранение новых картинок
+  (item) => {
+    api.addNewCards(item)
+    .then((data) => {
+      createCardsList(item).addItem(renderNewCard(data));
+      photoSavePopup.close()
+    })
+    .catch((err) => {
+      console.log('err', err);
+  })
+  })
+
+
+  function renderNewCard(cardElement) {
+    const newCard = new Card(cardElement, '.card-template', handleCardClick).generateCard();
+    return newCard
+  }
+
 
 const userInfo = new UserInfo({ nameProfile: profileTitle, jobProfile: profileSubitle });
 const profileValidate = new FormValidator(settings, formProfile);
@@ -81,20 +82,32 @@ const popupUpdateAvatar = new PopupWithForm('.popup_update', //попап, ме�
 }
 );
 
-const photoSavaPopup = new PopupWithForm('.popup_foto',
-  (item) => {
-    const cardNew = {
-      name: item.name,
-      link: item.link,
-    }
-    cardsList.addItem(renderNewCard(cardNew))
-    photoSavaPopup.close()
-  })
+Promise.all([api.getUserInfo(), api.getInitialCards()]) //
+.then(([user, cards]) => {
+  user = user._id;
+  userInfo.getUserInfo(user);
+  createCardsList(cards);
+})
+.catch((err) => {
+  console.log(err);
+})
 
-function renderNewCard(cardElement) {
-  const newCard = new Card(cardElement, '.card-template', handleCardClick).generateCard();
-  return newCard
-}
+
+// const photoSavePopup = new PopupWithForm('.popup_foto',
+//   (item) => {
+//     const cardNew = {
+//       name: item.name,
+//       link: item.link,
+//     }
+//     cardsList.addItem(renderNewCard(cardNew))
+//     photoSavePopup.close()
+//   })
+
+
+// function renderNewCard(cardElement) {
+//   const newCard = new Card(cardElement, '.card-template', handleCardClick).generateCard();
+//   return newCard
+// }
 
 function handleCardClick(name, link) {
   popupOpenPhoto.open(name, link)
@@ -109,7 +122,7 @@ function openPopupProfile() {
 }
 
 function openPopupSaveNewPhoto() {
-  photoSavaPopup.open();
+  photoSavePopup.open();
   popupPhotoValidate.setSubmitButtonState()
 }
 
@@ -131,10 +144,16 @@ chengeAvatar.addEventListener('click', (upDateAvatar));
 profileValidate.enableValidation();
 popupPhotoValidate.enableValidation();
 
-
 profilePopup.setEventListeners();
-photoSavaPopup.setEventListeners();
+photoSavePopup.setEventListeners();
 popupOpenPhoto.setEventListeners();
 
-cardsList.renderItems();
+// cardsList.renderItems();
 
+// api.getInitialCards()
+//   .then((result) => {
+//     // обрабатываем результат
+//   })
+//   .catch((err) => {
+//     console.log(err); // выведем ошибку в консоль
+//   }); 
