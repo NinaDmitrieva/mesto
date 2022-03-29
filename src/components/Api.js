@@ -37,24 +37,24 @@ export default class Api {
         })
             .then(this.requestResponse);
     }
-    setUserInfo({ name, job }) { //редактирование профиля
+    setUserInfo(name, job) { //редактирование профиля
         return fetch(`${this.baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this.headers,
             body: JSON.stringify({
                 name: name,
-                about: job,
+                about: job
             })
         })
             .then(this.requestResponse)
     }
-    changeAvatar(avatarLink) { //сменить аватар
+    setAvatarInfo(data) { //редактирование аватара
         return fetch(`${this.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: this.headers,
             body: JSON.stringify({
-                avatar: avatarLink,
-            })
+                avatar: data.avatar
+            })          
         })
             .then(this.requestResponse)
     }
