@@ -10,12 +10,13 @@
 .profile__name{display:flex;flex-direction:row-reverse;margin-bottom:16px;margin-top:22.25px}
 .profile__edit-button{background:url(images/Vector1.b6d4f59789c9a85045d8.png) no-repeat 50%/10px 10px #000;border:1px solid #fff;cursor:pointer;height:24px;margin:auto;transition:opacity .5s ease-in-out;width:24px}.profile__edit-button:hover{opacity:.5}@media screen and (max-width:800px){.profile__edit-button{background:url(images/Vector1.b6d4f59789c9a85045d8.png) no-repeat 50%/7.5px 7.5px #000;height:18px;margin-top:8px;width:18px}}
 .profile__add-button{align-self:center;background:url(images/Vectorplus.d86bb2edc2f6eadb96b7.svg) no-repeat 50%/22px 22px #000;border:2px solid #fff;border-radius:2px;cursor:pointer;height:50px;transition:opacity .5s ease-in-out;width:150px}.profile__add-button:hover{opacity:.5}@media screen and (max-width:800px){.profile__add-button{width:282px}}
-.profile__foto{border-radius:50%;justify-items:center;margin:auto 30px auto auto;width:120px}@media screen and (max-width:800px){.profile__foto{margin:0 auto}}
+.profile__foto{border-radius:50%;justify-items:center;margin:auto 30px auto auto;position:relative;width:120px;z-index:2}.profile__foto:hover{opacity:.3;transition:opacity .5s ease-in-out}@media screen and (max-width:800px){.profile__foto{margin:0 auto}}
 .profile__title{font-size:42px;font-weight:500;line-height:48px;margin:0 18px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:800px){.profile__title{font-size:27px;font-weight:500;line-height:32.68px;margin-bottom:14px;text-align:center}}
 .profile__subtitle{font-size:18px;font-weight:400;line-height:21.78px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:800px){.profile__subtitle{font-size:14px;line-height:16.94px;text-align:center}}
+.profile__hover-img{background:url(images/Vector2.9300d1cef913648cd985.png) no-repeat 40%/26px 26px;cursor:pointer;justify-items:center;opacity:1;transition:opacity .5s ease-in-out;z-index:0}.profile__hover-img:hover{opacity:1;z-index:0}
 .elements{display:grid;gap:20px 17px;grid-template-columns:repeat(auto-fill,282px);grid-template-rows:repeat(auto-fill,361px);justify-content:center;margin:0 auto;max-width:880px}
 .element{background-color:#fff;border-radius:10px;color:#000;display:flex;flex-direction:column;height:361px;margin:0 auto;overflow:hidden;position:relative;text-overflow:ellipsis;white-space:nowrap;width:282px}
-.element__foto{height:282px;width:282px}
+.element__foto{min-height:282px;-o-object-fit:cover;object-fit:cover;width:282px}
 .element__like{align-self:center;background:url(images/Vector.d2bd332524e1fc48874e.png) no-repeat 50%/100%;border:2px solid #fff;cursor:pointer;height:19px;margin:5px 5px 1px auto;transition:opacity .5s ease-in-out;width:22px}.element__like:hover{opacity:.5}
 .element__mask-group{display:flex;flex-direction:row;justify-content:space-between;margin:25px 15px 31px 21px}
 
@@ -29,7 +30,7 @@
 .popup_activ{display:flex;opacity:1;position:fixed;transition:all .5s ease;visibility:visible}
 .popup__work{border:none;border-bottom:1px solid rgba(84,84,84,.2);font-size:14px;font-weight:400;line-height:16.94px;width:358px}@media screen and (max-width:800px){.popup__work{font-size:14px;line-height:16.94px;width:238px}}
 .popup__text{font-size:24px;font-weight:900;line-height:29.05px;margin:0 auto 54px}@media screen and (max-width:800px){.popup__text{font-size:18px;line-height:21.78px;margin:25px auto 75px}}
-.popup__style{box-sizing:content-box;max-width:358px}
+.popup__style{box-sizing:content-box;margin:auto;max-width:358px}
 .popup__save{background-color:#000;border-radius:2px;color:#fff;cursor:pointer;font-size:18px;font-weight:400;height:50px;line-height:21.78px;margin-top:18px;text-align:center;transition:opacity .5s ease-in-out;width:100%}.popup__save:hover{opacity:.5}@media screen and (max-width:800px){.popup__save{align-items:center;align-self:center;font-size:14px;height:46px;line-height:16.94px;margin-bottom:25px;max-width:238px}}
 .popup__name{border:none;border-bottom:1px solid rgba(0,0,0,.2);font-size:14px;font-weight:400;line-height:16.94px;width:358px}@media screen and (max-width:800px){.popup__name{font-size:14px;line-height:16.94px;width:238px}}
 .popup__form{margin:0 auto;max-width:358px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:800px){.popup__form{min-width:282px;text-align:center}}
@@ -48,6 +49,9 @@
 .popup__block-img{box-sizing:border-box;color:#000;max-width:430px;position:relative}@media screen and (max-width:800px){.popup__block-img{max-width:282px;padding:0}}
 .popup__error{border-bottom:1px solid red}
 .popup__button-invalid{background:#e9e9e9;border:1px solid rgba(0,0,0,.2);color:rgba(0,0,0,.5);cursor:default;opacity:.5}
+
+
+.popup__text-confirm{margin:0 auto 38px}
 
 .error{box-sizing:border-box;color:red;display:block;font-size:12px;height:30px;line-height:14px;white-space:normal}
 
