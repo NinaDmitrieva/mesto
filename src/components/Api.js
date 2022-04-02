@@ -1,7 +1,7 @@
 import { jobInput, nameInput } from "../utils/Constants";
 
 export default class Api {
-    constructor({ baseUrl, headers }) {
+    constructor(baseUrl, headers ) {
         this.baseUrl = baseUrl;
         this.headers = headers;
     }
@@ -19,7 +19,7 @@ export default class Api {
         })
             .then(this.requestResponse)
     }
-    addNewCards(data) { //добавить новую карточку мб name+link+id?
+    addNewCard(data) { //добавить новую карточку мб name+link+id?
         return fetch(`${this.baseUrl}/cards`, {
             method: 'POST',
             headers: this.headers,
@@ -66,4 +66,3 @@ export default class Api {
             .then(this.requestResponse)
     }
 }
-
