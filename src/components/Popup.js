@@ -18,7 +18,7 @@ export default class Popup {
   _handleEscClose(event) {
     if (event.key === 'Escape') {
       this.close()
-    };
+    }
   }
 
   setEventListeners() {
@@ -33,3 +33,4 @@ export default class Popup {
 
 
 }
+

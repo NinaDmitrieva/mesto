@@ -5,6 +5,7 @@ import Section from '../components/Section.js'
 import UserInfo from '../components/UserInfo.js'
 import PopupWithImage from '../components/PopupWithImage.js'
 import PopupWithForm from '../components/PopupWithForm.js'
+import PopupWithConfirm from '../components/PopupWithConfirm.js'
 import Api from '../components/Api.js'
 
 import {
@@ -19,10 +20,12 @@ import {
   settings,
 } from '../utils/Constants.js'
 
-const userInfo = new UserInfo({ nameProfile: profileTitle, jobProfile: profileSubitle, fotoAvatar: fotoAvatar });
+
+
 const profileValidate = new FormValidator(settings, formProfile);
 const popupPhotoValidate = new FormValidator(settings, formPhoto);
 const popupOpenPhoto = new PopupWithImage('.popup_open-foto');
+
 
 const api = new Api('https://mesto.nomoreparties.co/v1/cohort-38', {
   authorization: '1fed1f0c-d99b-4c82-a201-fb2e7265dac6',
@@ -30,9 +33,12 @@ const api = new Api('https://mesto.nomoreparties.co/v1/cohort-38', {
   'Accept': 'application/json: charset=utf-8'
 });
 
-const popupDeliteCard = new PopupWithForm('.popup_confirm', (card) => { //окно подтверждения
-  deleteCard(card)
-})
+
+const user = new UserInfo({ nameProfile: profileTitle, jobProfile: profileSubitle, fotoAvatar: fotoAvatar });
+
+const popupDeliteCard  = new PopupWithConfirm('.popup_confirm', (card) => {
+  deteteCard(card)
+});
 
 const photoSavePopup = new PopupWithForm('.popup_foto', (item) => {
   saveImg(item)
@@ -46,28 +52,42 @@ const profilePopup = new PopupWithForm('.popup_profile', (userData) => {
   upDateUser(userData)
 })
 
-
 const cardsList = new Section({
   renderer: renderCard
 },
   '.elements');
 
-Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([user, cards]) => {
-    userInfo.setUserInfo(user);
-    cardsList.setData(cards)
-    cardsList.renderItems(cards)
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+function initUserInfo() {
+    api.getUserInfo()
+        .then((data) => {
+            user.setUserInfo(data);
+            user.setUserId(data._id);
+    })
+        .then(()=> {
+            initCards(user.getUserId())
+    })
+        .catch((err) => {
+            console.log(err);
+    })
+}
+
+function initCards(id) {
+    api.getInitialCards()
+        .then((data) => {
+            cardsList.setData(data)
+            cardsList.renderItems(id)
+    })
+        .catch((err) => {
+            console.log(err)
+    })
+}
 
 function saveImg(item) {
   const cardData = {
     name: item.name,
     link: item.link
   }
-
+  photoSavePopup.showLoading(true)
   api.addNewCard(cardData)
     .then(() => {
       renderCard(cardData);
@@ -76,46 +96,66 @@ function saveImg(item) {
     .catch((err) => {
       console.log('err', err)
     })
+    .finally(() => {
+      photoSavePopup.showLoading(false)
+    })
 }
 
 function updateAvatar(dataAvatar) {
+  popupUpdateAvatar.showLoading(true)
   api.setAvatarInfo(dataAvatar)
     .then((newDataAvatar) => {
-
-      const userData = {
-        name: newDataAvatar.name,
-        about: newDataAvatar.about,
-        _id: newDataAvatar._id,
-        avatar: newDataAvatar.avatar,
-      }
-      console.log(userData)
-      userInfo.setUserInfo(userData);
+      user.setUserInfo(newDataAvatar)
       popupUpdateAvatar.close();
     })
     .catch((err) => {
       console.log('err', err);
     })
     .finally(() => {
+    popupUpdateAvatar.showLoading(false)
     })
 }
 
 function upDateUser(userData) {
+  profilePopup.showLoading(true)
   api.setUserInfo(userData.name, userData.job)
     .then((newDataUser) => {
-      userInfo.setUserInfo(newDataUser);
+      user.setUserInfo(newDataUser);
       profilePopup.close()
     })
     .catch((err) => {
       console.log('err', err);
     })
     .finally(() => {
+      profilePopup.showLoading(false)
     })
 }
 
-function deleteCard(card) { 
-  api.deleteCard(idCard)
-    .then((idCard) => {
-      card.deliteCard(idCard);
+function renderCard(card, id) {
+    cardsList.addItem(renderNewCard(card, id))
+}
+
+function renderNewCard(cardElement, id) {
+  const card = {
+    name: cardElement.name,
+    link: cardElement.link,
+    _id: cardElement._id,
+    likes: cardElement.likes,
+    owner: cardElement.owner,
+    userId : id,
+    handleCardClick: popupOpenPhoto,
+    handleDeleteClick: openPopupDeliteCard,
+    handleLikeClick: getLike,
+
+}
+  //console.log(cardElement.owner)
+  return new Card(card, '.card-template', handleCardClick).generateCard();
+  
+}
+function deteteCard(card) { 
+  api.deleteCard(card._id)
+    .then(() => {
+      card.deleteImg() ; 
       popupDeliteCard.close();
     })
     .catch((err) => {
@@ -123,12 +163,15 @@ function deleteCard(card) {
     })
 }
 
-function renderCard(card) {
-  cardsList.addItem(renderNewCard(card))
-}
-
-function renderNewCard(cardElement) {
-  return new Card(cardElement, '.card-template', handleCardClick).generateCard()
+function getLike(card) {
+  api.getLike(card._id)
+    .then(() =>{
+      card.findLike();
+      card.setLikes();
+    })
+    .catch((err)=>{
+      console.log('err', err)
+    })
 }
 
 function handleCardClick(name, link) {
@@ -145,9 +188,9 @@ function openPopupSaveNewPhoto() {
   popupPhotoValidate.setSubmitButtonState()
 }
 
-function openPopupDeliteCard() { //функция для открытия окошка подтверждения
-  popupDeliteCard.open();
-  popupDeliteCard.setEventListeners();
+function openPopupDeliteCard(card) {
+    popupDeliteCard.setCard(card);
+    popupDeliteCard.open();
 }
 
 function upDateAvatar() {
@@ -156,7 +199,6 @@ function upDateAvatar() {
 
 btnOpenProfile.addEventListener('click', (openPopupProfile));
 btnOpenNewPhoto.addEventListener('click', (openPopupSaveNewPhoto));
-
 chengeAvatar.addEventListener('click', (upDateAvatar));
 profileValidate.enableValidation();
 popupPhotoValidate.enableValidation();
@@ -164,3 +206,6 @@ profilePopup.setEventListeners();
 photoSavePopup.setEventListeners();
 popupOpenPhoto.setEventListeners();
 popupUpdateAvatar.setEventListeners();
+popupDeliteCard.setEventListeners();
+initUserInfo()
+

@@ -19,6 +19,7 @@ export default class Api {
         })
             .then(this.requestResponse)
     }
+    
     addNewCard(data) { //добавить новую карточку мб name+link+id?
         return fetch(`${this.baseUrl}/cards`, {
             method: 'POST',
@@ -30,6 +31,7 @@ export default class Api {
         })
             .then(this.requestResponse)
     }
+
     getUserInfo() { //запрос данных пользователя
         return fetch(`${this.baseUrl}/users/me`, {
             method: 'GET',
@@ -37,6 +39,7 @@ export default class Api {
         })
             .then(this.requestResponse);
     }
+
     setUserInfo(name, job) { //редактирование профиля
         return fetch(`${this.baseUrl}/users/me`, {
             method: 'PATCH',
@@ -48,6 +51,7 @@ export default class Api {
         })
             .then(this.requestResponse)
     }
+
     setAvatarInfo(data) { //редактирование аватара
         return fetch(`${this.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
@@ -58,6 +62,7 @@ export default class Api {
         })
             .then(this.requestResponse)
     }
+
     deleteCard(id) { //удаление картинки
         return fetch(`${this.baseUrl}/cards/${id}`, {
             method: 'DELETE',
@@ -65,4 +70,22 @@ export default class Api {
         })
             .then(this.requestResponse)
     }
+
+    getLike(id) {
+        return fetch(`${this.baseUrl}/cards/${id}/likes`, {
+          method: "PUT",
+          headers: this.headers,
+        })
+            .then(this.requestResponse)
+      }
+    
+    deleteLike(id) {
+        return fetch(`${this.baseUrl}/cards/${id}/likes`, {
+          method: "DELETE",
+          headers: this.headers,
+        })
+            .then(this.requestResponse)
+      }
+    
+  
 }
