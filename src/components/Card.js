@@ -21,6 +21,7 @@ export default class Card {
 
   removeCard() {
     this.element.remove();
+    this.element = null
   };
 
   generateCard() {

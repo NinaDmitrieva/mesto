@@ -32,7 +32,8 @@ export const profileTitle = document.querySelector('.profile__title');
 export const profileSubitle = document.querySelector('.profile__subtitle');
 export const cardsInput = document.querySelector('.popup__cards');  
 export const placeInput = document.querySelector('.popup__place');  
-export const formProfile = document.querySelector('.popup__about');  
+export const formProfile = document.querySelector('.popup__about');
+export const formAvatar = document.querySelector('.popup__avatar');   
 export const formPhoto = document.querySelector('.popup__about-foto');
 
 export const cardsСontainer = document.querySelector('.elements'); 

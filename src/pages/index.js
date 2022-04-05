@@ -14,6 +14,7 @@ import {
   chengeAvatar,
   formPhoto,
   formProfile,
+  formAvatar,
   fotoAvatar,
   profileSubitle,
   profileTitle,
@@ -24,7 +25,9 @@ import {
 
 const profileValidate = new FormValidator(settings, formProfile);
 const popupPhotoValidate = new FormValidator(settings, formPhoto);
+const popupUpdateAvatarValidate = new FormValidator(settings, formAvatar);
 const popupOpenPhoto = new PopupWithImage('.popup_open-foto');
+
 
 const api = new Api('https://mesto.nomoreparties.co/v1/cohort-38', {
   authorization: '1fed1f0c-d99b-4c82-a201-fb2e7265dac6',
@@ -62,7 +65,7 @@ function initUserInfo() {
             user.setUserId(data._id);
     })
         .then(()=> {
-            initCards(user.getUserId())
+            initCards()
     })
         .catch((err) => {
             console.log(err);
@@ -133,14 +136,15 @@ function renderCard(card, id) {
     cardsList.addItem(renderNewCard(card, id))
 }
 
-function renderNewCard(cardElement, id) {
+function renderNewCard(cardElement) {
   const card = {
     name: cardElement.name,
     link: cardElement.link,
     _id: cardElement._id,
     likes: cardElement.likes,
     ownerId: cardElement.owner._id,
-    userId : id,
+    //userId : id,
+    userId: user.getUserId(),
     handleCardClick: handleCardClick,
     handleDeleteClick: openPopupDeliteCard,
     handleLikeClick: setLike,
@@ -210,6 +214,7 @@ btnOpenNewPhoto.addEventListener('click', (openPopupSaveNewPhoto));
 chengeAvatar.addEventListener('click', (upDateAvatar));
 profileValidate.enableValidation();
 popupPhotoValidate.enableValidation();
+popupUpdateAvatarValidate.enableValidation();
 profilePopup.setEventListeners();
 photoSavePopup.setEventListeners();
 popupOpenPhoto.setEventListeners();
