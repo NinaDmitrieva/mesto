@@ -18,6 +18,8 @@ import {
   profileSubitle,
   profileTitle,
   settings,
+  nameInput,
+  jobInput,
 } from '../utils/Constants.js'
 
 const profileValidate = new FormValidator(settings, formProfile);
@@ -183,7 +185,8 @@ function handleCardClick(name, link) {
 }
 
 function openPopupProfile() {
-
+  nameInput.value = profileTitle.textContent,
+  jobInput.value = profileSubitle.textContent,
   profilePopup.open();
   profileValidate.setSubmitButtonState()
 }
