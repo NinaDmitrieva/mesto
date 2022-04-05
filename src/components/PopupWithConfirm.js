@@ -21,10 +21,5 @@ export default class PopupWithConfirm extends Popup {
       this.handleSubmit(this.getCard())
     });
   }
-
-  // _handleSubmit = (evt) => {
-  //   evt.preventDefault();
-  //   this._submitHandler();
-  // }
 }
 

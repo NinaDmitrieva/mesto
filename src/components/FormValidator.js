@@ -13,14 +13,14 @@ export default class FormValidator {
     this._setEventListeners(this._form)
   }
 
-  _setEventListeners (form) {
+  _setEventListeners(form) {
     this._inputs.forEach(input => input.addEventListener('input', () => {
       this._handleField(form, input)
       this.setSubmitButtonState(form)  
       })) 
   }
 
-  _handleField (form, input) {
+  _handleField(form, input) {
     if (input.validity.valid) {
       this._hideError(form, input);
     } else {

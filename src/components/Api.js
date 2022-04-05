@@ -6,13 +6,13 @@ export default class Api {
         this.headers = headers;
     }
 
-    requestResponse(res) { //ждем ответ
+    requestResponse(res) {
         if (res.ok) {
             return res.json();
         }
         return Promise.reject(`Все сломалось:( ${res.status}`);
     }
-    getInitialCards() {//загрузить карточки
+    getInitialCards() {
         return fetch(`${this.baseUrl}/cards`, {
             method: 'GET',
             headers: this.headers,
@@ -20,7 +20,7 @@ export default class Api {
             .then(this.requestResponse)
     }
     
-    addNewCard(data) { //добавить новую карточку мб name+link+id?
+    addNewCard(data) { 
         return fetch(`${this.baseUrl}/cards`, {
             method: 'POST',
             headers: this.headers,
@@ -32,7 +32,7 @@ export default class Api {
             .then(this.requestResponse)
     }
 
-    getUserInfo() { //запрос данных пользователя
+    getUserInfo() {
         return fetch(`${this.baseUrl}/users/me`, {
             method: 'GET',
             headers: this.headers
@@ -40,7 +40,7 @@ export default class Api {
             .then(this.requestResponse);
     }
 
-    setUserInfo(name, job) { //редактирование профиля
+    setUserInfo(name, job) {
         return fetch(`${this.baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this.headers,
@@ -52,7 +52,7 @@ export default class Api {
             .then(this.requestResponse)
     }
 
-    setAvatarInfo(data) { //редактирование аватара
+    setAvatarInfo(data) {
         return fetch(`${this.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: this.headers,
@@ -63,7 +63,7 @@ export default class Api {
             .then(this.requestResponse)
     }
 
-    deleteCard(id) { //удаление картинки
+    deleteCard(id) { 
         return fetch(`${this.baseUrl}/cards/${id}`, {
             method: 'DELETE',
             headers: this.headers,
@@ -71,7 +71,7 @@ export default class Api {
             .then(this.requestResponse)
     }
 
-    getLike(id) {
+    setLike(id) {
         return fetch(`${this.baseUrl}/cards/${id}/likes`, {
           method: "PUT",
           headers: this.headers,
@@ -87,5 +87,4 @@ export default class Api {
             .then(this.requestResponse)
       }
     
-  
 }

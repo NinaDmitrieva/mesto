@@ -33,5 +33,4 @@ export default class UserInfo {
     getUserId() {
         return this.identifer
     }
-
 }

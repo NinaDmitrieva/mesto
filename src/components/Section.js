@@ -5,13 +5,15 @@ export default class Section {
         this._container = document.querySelector(templateSelector);
         this._id = '';
     }
+
     renderItems(id) {
-        this._data.forEach((item) => {
+        this._data.reverse().forEach((item) => {
             this._renderer(item, id);
         });
     };
+    
     addItem(item) {
-        this._container.append(item);
+        this._container.prepend(item);
     }
 
     setData(data){

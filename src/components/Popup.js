@@ -5,6 +5,7 @@ export default class Popup {
     this.popup = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
   }
+  
   open() {
     this.popup.classList.add(popupRun);
     document.addEventListener('keydown', this._handleEscClose);
@@ -26,11 +27,6 @@ export default class Popup {
       if ((evt.target.classList.contains('popup_activ')) || (evt.target.classList.contains('popup__close-icon')))
         this.close()
     })
-
   }
-
-
-
-
 }
 

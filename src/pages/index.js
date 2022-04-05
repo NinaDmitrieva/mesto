@@ -20,19 +20,15 @@ import {
   settings,
 } from '../utils/Constants.js'
 
-
-
 const profileValidate = new FormValidator(settings, formProfile);
 const popupPhotoValidate = new FormValidator(settings, formPhoto);
 const popupOpenPhoto = new PopupWithImage('.popup_open-foto');
-
 
 const api = new Api('https://mesto.nomoreparties.co/v1/cohort-38', {
   authorization: '1fed1f0c-d99b-4c82-a201-fb2e7265dac6',
   'Content-Type': 'application/json',
   'Accept': 'application/json: charset=utf-8'
 });
-
 
 const user = new UserInfo({ nameProfile: profileTitle, jobProfile: profileSubitle, fotoAvatar: fotoAvatar });
 
@@ -89,8 +85,8 @@ function saveImg(item) {
   }
   photoSavePopup.showLoading(true)
   api.addNewCard(cardData)
-    .then(() => {
-      renderCard(cardData);
+    .then((data) => {
+      renderCard(data, data.owner._id);
       photoSavePopup.close()
     })
     .catch((err) => {
@@ -141,21 +137,20 @@ function renderNewCard(cardElement, id) {
     link: cardElement.link,
     _id: cardElement._id,
     likes: cardElement.likes,
-    owner: cardElement.owner,
+    ownerId: cardElement.owner._id,
     userId : id,
-    handleCardClick: popupOpenPhoto,
+    handleCardClick: handleCardClick,
     handleDeleteClick: openPopupDeliteCard,
-    handleLikeClick: getLike,
+    handleLikeClick: setLike,
+    handleRemoveLike: removeLike
+}
+  return new Card(card, '.card-template').generateCard();
+}
 
-}
-  //console.log(cardElement.owner)
-  return new Card(card, '.card-template', handleCardClick).generateCard();
-  
-}
 function deteteCard(card) { 
   api.deleteCard(card._id)
     .then(() => {
-      card.deleteImg() ; 
+      card.removeCard() ; 
       popupDeliteCard.close();
     })
     .catch((err) => {
@@ -163,22 +158,32 @@ function deteteCard(card) {
     })
 }
 
-function getLike(card) {
-  api.getLike(card._id)
-    .then(() =>{
-      card.findLike();
-      card.setLikes();
+function setLike(id, renderLikes) {
+  api.setLike(id)
+    .then((data) =>{
+      renderLikes(data.likes)
     })
-    .catch((err)=>{
+    .catch((err) => {
       console.log('err', err)
     })
-}
+};
+
+function removeLike(id, renderLikes){
+  api. deleteLike(id)
+    .then((data) =>{
+      renderLikes(data.likes)
+    })
+    .catch((err) => {
+      console.log('err', err)
+    })
+};
 
 function handleCardClick(name, link) {
   popupOpenPhoto.open(name, link)
 }
 
 function openPopupProfile() {
+
   profilePopup.open();
   profileValidate.setSubmitButtonState()
 }
@@ -208,4 +213,5 @@ popupOpenPhoto.setEventListeners();
 popupUpdateAvatar.setEventListeners();
 popupDeliteCard.setEventListeners();
 initUserInfo()
+
 
